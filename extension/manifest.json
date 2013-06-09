@@ -1,6 +1,6 @@
 {
 	"name"			: "Hangout Chat Notifications",
-	"version"		: "1.9.1",
+	"version"		: "1.9.2",
 	"manifest_version"	: 2,
 	"description"		: "Enables chat notifications for new Hangouts in gmail/G+ [me@nishantarora.in]",
 	"icons"			:
