@@ -1,0 +1,41 @@
+{
+	"name"			: "Hangout Chat Notifications",
+	"version"		: "1.9.1",
+	"manifest_version"	: 2,
+	"description"		: "Enables chat notifications for new Hangouts in gmail/G+ [me@nishantarora.in]",
+	"icons"			:
+		{
+			"16"		: "images/icon_16.png",
+			"48"		: "images/icon_48.png",
+			"128"		: "images/icon_128.png"
+		},
+	"background"		:
+		{
+			"scripts": ["background.js"]
+		},
+	"content_scripts"	:
+		[{
+			"matches"	: 
+			[
+				"*://*.talkgadget.google.com/*",
+				"*://talkgadget.google.com/*"
+			],
+			"js"		:
+			[
+				"lib/jquery.js",
+				"tool/smuggler.js"
+			],
+			"all_frames"	: true
+		}],
+	"web_accessible_resources":
+		[
+			"images/icon_16.png"
+		],
+	"permissions"		:
+		[
+			"*://*.talkgadget.google.com/*",
+			"*://talkgadget.google.com/*",
+			"tabs",
+			"notifications"
+		]
+}
