@@ -1,6 +1,6 @@
 /**********************************************************
 *** FILE	: smuggler.js				***
-*** REV		: 1.6					***
+*** REV		: 1.7					***
 *** DEV		: me@nishantarora.in		***
 *** DATE	: April 18,2013				***
 *** DESC	: Smuggles data from chat frame to the	***
@@ -42,9 +42,9 @@ function update_notifier(){
 	});
 	var reqThumb	= allThumbs[allThumbs.length-1].src;
 	//message
-	var message	= $('div.mC.Ew:last').text();
+	var message	= $('div.Mu.SP:last').text();
 	//user
-	var user	= $('div.AwFK8.Uw:last').text();
+	var user	= $('div.UR.UG:last').text();
 	console.log({img: reqThumb, user: user,update: message,url: document.referrer});
 	chrome.extension.sendRequest({img: reqThumb, user: user,update: message,url: document.referrer});
 }
