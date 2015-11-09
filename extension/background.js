@@ -12,49 +12,57 @@
 /**
  * Setting globals.
  */
-notiAct  = false;
-prevUser= "";
-prevTab  = -1;
+notiAct = false;
+prevUser = "";
+prevTab = -1;
 
 /**
  * Listening for new messages.
  */
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+//chrome.extension.onRequest.addListener(onNewMessage);
+chrome.runtime.onMessage.addListener(onNewMessage);
+
+function onNewMessage(request, sender, sendResponse) {
   chrome.tabs.query({url: request.url}, function(tabArray) {
-    windowID = tabArray[0].windowId;
-    isFocused = true;
-    chrome.windows.get(windowID, function(window){
-      isFocused = (window.focused == "true") ? true : false;
-      if(!isFocused || !tabArray[0].active){
-        console.log(isFocused);
-        notify(request.user.trim(),tabArray[0].id,request.img,request.update);
-      }
-    });
+    var tab = (tabArray.length === 0 ? tabArray : tabArray[0]);
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+    } else {
+      windowID = tab.windowId;
+      isFocused = true;
+      chrome.windows.get(windowID, function(window){
+        isFocused = (window.focused == "true") ? true : false;
+        if(!isFocused || !tab.active){
+          console.log(isFocused);
+          notify(request.user.trim(),tab.id,request.img,request.update);
+        }
+      });
+    }
   });
-});
+}
 
 /**
  * Create notifications.
  */
 function notify(user,tabID,img,update){
-  var notiDisp= true;
+  var notiDisp = true;
   if(user == prevUser && tabID !== prevTab){
     notiDisp= false;
   }
   if(notiDisp){
-    prevUser=user;
-    prevTab  =tabID;
+    prevUser = user;
+    prevTab = tabID;
     if(notiAct){
-      notification.cancel();
+      if(notification !== undefined)
+        notification.close();
       notiAct = false;
     }
-    notification = webkitNotifications.createNotification(img,user,update);
+    notification = new Notification(user,{body:update, icon:img});
     notification.onclick = function(){
       chrome.tabs.update(tabID, {active: true});
-      this.cancel();
+      this.close();
       notiAct = false;
     };
-    notification.show();
     notiAct = true;
   }
 }
