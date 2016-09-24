@@ -27,18 +27,21 @@ $(document).ready(function(){
 /**
  * Counting difference in divs.
  */
-n=-1;
-divno=-1;
+var divno=-1;
+var divs = {};
 function check_new_message(){
-  if(n==-1){
-    n= $("div").length;
+  var name = $('div.Ob2Lud.RE.EIhiV.OxDpJ').text();
+  if(name !== '' && !divs[name]) {
+    divs[name] = $("div").length;
   }
-  divno  = $("div").length;
+  var n = divs[name];
+  divno = $("div").length;
+  
   if(divno>n && n!==0){
     if(!window_focus){
       update_notifier();
     }
-    n=divno;
+    divs[name]=divno;
   }
 }
 /**
@@ -46,22 +49,25 @@ function check_new_message(){
  */
 function update_notifier(){
 
+  var div = $('div.tk.Sn:last');
+  
   /**
    * Thumbnail.
    */
-  var allThumbs  = $('img').filter(function(){
-    return ($(this).width() ==32) && ($(this).height() ==32)
-  });
-  var reqThumb  = allThumbs[allThumbs.length-1].src;
-
+  var allThumbs = $(div).find('img.Yf');
+  var reqThumb  = allThumbs.length > 0 ? allThumbs[allThumbs.length-1].src : '';
+  reqThumb = reqThumb.replace(/\/s32-/, '/s256-');
+  
   /**
    * Message.
    */
-  var message  = $('div.Mu.SP:last').text();
+  var message  = $(div).find('.Mu.SP:last').text();
 
   /**
    * User.
    */
-  var user  = $('div.UR.UG:last').text();
-  chrome.extension.sendRequest({img: reqThumb, user: user,update: message,url: document.referrer});
+  var user  = $(div).find('.UR.UG').text();
+  
+  if (user !== '')
+    chrome.runtime.sendMessage({img: reqThumb, user: user,update: message,url: document.referrer});
 }

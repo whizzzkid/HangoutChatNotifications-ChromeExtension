@@ -17,6 +17,8 @@
 		[{
 			"matches"	: 
 			[
+				"*://*.hangouts.google.com/*",
+				"*://hangouts.google.com/*",
 				"*://*.talkgadget.google.com/*",
 				"*://talkgadget.google.com/*"
 			],
@@ -33,6 +35,8 @@
 		],
 	"permissions"		:
 		[
+			"*://*.hangouts.google.com/*",
+			"*://hangouts.google.com/*",
 			"*://*.talkgadget.google.com/*",
 			"*://talkgadget.google.com/*",
 			"tabs",
